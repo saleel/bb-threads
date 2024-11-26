@@ -5,10 +5,16 @@ import vkey from "./assets/circuit-vkey.json";
 import initNoirC from '@noir-lang/noirc_abi';
 import initACVM from '@noir-lang/acvm_js';
 
+const doc = document.getElementById("proof-result");
+
+function print(text) {
+  console.log(text);
+  doc.innerHTML = text;
+}
+
 const generateProof = async () => {
   try {
-    const api = await Barretenberg.new();
-    alert(await api.getNumThreads() + " threads");
+    print("Initializing...");
 
     await Promise.all([
       initACVM(new URL('@noir-lang/acvm_js/web/acvm_js_bg.wasm', import.meta.url).toString()),
@@ -25,14 +31,12 @@ const generateProof = async () => {
     const { witness } = await noir.execute({ x: 3, y: 3 });
     const proof = await backend.generateProof(witness);
     const provingTime = performance.now() - startTime;
-
-    console.log(`Proof generated in ${provingTime}ms`, proof);
+    print(`Proof generated in ${provingTime}ms`);
 
     const verified = await backend.verifyProof(proof);
-    console.log("Proof verified:", verified);
+    print(`Proof verified: ${verified}`);
   } catch (e) {
-    console.error(e);
-    alert(e);
+    print(e);
   }
 };
 
