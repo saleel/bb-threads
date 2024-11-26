@@ -2,6 +2,12 @@
   "headers": [
     {
       "source": "/multi-thread",
+      "has": [
+        {
+          "type": "query",
+          "key": "multi-thread"
+        }
+      ],
       "headers": [
         {
           "key": "Cross-Origin-Opener-Policy",
@@ -13,9 +19,5 @@
         }
       ]
     }
-  ],
-  "rewrites": [
-    { "source": "/single-thread", "destination": "/index.html" },
-    { "source": "/multi-thread", "destination": "/index.html" }
   ]
 }

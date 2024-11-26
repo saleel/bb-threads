@@ -8,20 +8,26 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/main.js"></script>
-    <script>
-      document.getElementById("thread-count").innerHTML = window.location.pathname;
-    </script>
-
     <h1 id="thread-count"></h1>
 
-    <a href="/single-thread">Single Thread</a>
+    <a href="/?single-thread">Single Thread</a>
     <br/>
-    <a href="/multi-thread">Multi Thread</a>
+    <a href="/?multi-thread">Multi Thread</a>
     <br/>
     <br/>
 
-    <button id="generate-proof" onclick="generateProof()">Generate Proof</button>
+    <button style="display: none;" id="generate-proof" onclick="generateProof()">Generate Proof</button>
 
     <div id="proof-result"></div>
+
+
+    <script>
+      document.getElementById("thread-count").innerHTML = window.location.search.slice(1);
+
+      if (window.location.search.includes("thread")) {
+        document.getElementById("generate-proof").style.display = "block";
+      }
+    </script>
+
   </body>
 </html>
