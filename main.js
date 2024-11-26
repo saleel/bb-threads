@@ -1,10 +1,3 @@
-import { UltraHonkBackend, Barretenberg } from "@aztec/bb.js";
-import { Noir } from "@noir-lang/noir_js";
-import circuit from "./assets/circuit.json";
-import vkey from "./assets/circuit-vkey.json";
-import initNoirC from '@noir-lang/noirc_abi';
-import initACVM from '@noir-lang/acvm_js';
-
 const doc = document.getElementById("proof-result");
 
 function print(text) {
@@ -15,6 +8,12 @@ function print(text) {
 const generateProof = async () => {
   try {
     print("Initializing...");
+
+    const { UltraHonkBackend, Barretenberg } = await import("@aztec/bb.js");
+    const { Noir } = await import("@noir-lang/noir_js");
+    const circuit = await import("./assets/circuit.json");
+    const { initNoirC } = await import("@noir-lang/noirc_abi");
+    const { initACVM } = await import("@noir-lang/acvm_js");
 
     const api = await Barretenberg.new();
     print(`Threads: ${await api.getNumThreads()}`);
