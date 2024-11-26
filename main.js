@@ -43,4 +43,4 @@ const generateProof = async () => {
   }
 };
 
-window.generateProof = generateProof;
+document.getElementById("generate-proof").addEventListener("click", generateProof);

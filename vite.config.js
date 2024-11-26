@@ -5,9 +5,15 @@ import topLevelAwait from "vite-plugin-top-level-await";
 export default defineConfig({
   plugins: [topLevelAwait()],
   server: {
-    headers: {
-      "Cross-Origin-Opener-Policy": "same-origin",
-      "Cross-Origin-Embedder-Policy": "require-corp",
-    },
+    middleware: [
+      (req, res, next) => {
+        console.log(req.url);
+        if (req.url.startsWith('/multi-thread')) {
+          res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+          res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+        }
+        next();
+      }
+    ]
   },
 });
