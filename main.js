@@ -1,7 +1,7 @@
 import { UltraHonkBackend } from "@aztec/bb.js";
 import { Noir } from "@noir-lang/noir_js";
-import circuit from "../noir-bb-sample/app/assets/circuit.json";
-import vkey from "../noir-bb-sample/app/assets/circuit-vkey.json";
+import circuit from "./assets/circuit.json";
+import vkey from "./assets/circuit-vkey.json";
 import initNoirC from '@noir-lang/noirc_abi';
 import initACVM from '@noir-lang/acvm_js';
 
