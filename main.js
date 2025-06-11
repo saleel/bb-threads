@@ -1,3 +1,7 @@
+import packagejson from "./package.json";
+
+print(`bb.js version: ${packagejson.dependencies["@aztec/bb.js"]}`);
+
 const doc = document.getElementById("proof-result");
 
 function print(text) {
