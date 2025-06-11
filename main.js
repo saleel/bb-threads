@@ -1,5 +1,5 @@
 import packagejson from "./package.json";
-import { UltraHonkBackend, Barretenberg } from "./bb";
+import { UltraHonkBackend, Barretenberg } from "@aztec/bb.js";
 import { Noir } from "@noir-lang/noir_js";
 
 print(`bb.js version: ${packagejson.dependencies["@aztec/bb.js"]}`);
@@ -53,6 +53,7 @@ async function loadWasm() {
 
   try {
     print("Barretenberg.new");
+    console.log(Barretenberg);
     const bb = await Barretenberg.new({
       threads: Number(document.getElementById("threads").value),
       logger: (msg) => print(msg),
@@ -61,6 +62,7 @@ async function loadWasm() {
         maximum: Number(document.getElementById("maximum-memory").value),
       },
     });
+    print("Barretenberg.new done");
 
     print("Barretenberg.getNumThreads");
     const numThreads = await bb.getNumThreads();
