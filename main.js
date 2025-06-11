@@ -25,7 +25,7 @@ const generateProof = async () => {
     const noir = new Noir(circuit);
 
     const backend = new UltraHonkBackend(circuit.bytecode, {
-      threads: numThreads,
+      threads: Number(numThreads),
       logger: (msg) => {
         print(msg);
       },
@@ -47,3 +47,30 @@ const generateProof = async () => {
 document
   .getElementById("generate-proof")
   .addEventListener("click", generateProof);
+
+async function loadWasm() {
+  const { Barretenberg } = await import("@aztec/bb.js");
+  document.getElementById("logs").innerHTML = "";
+
+  print("Barretenberg.new");
+  const bb = await Barretenberg.new({
+    threads: Number(document.getElementById("threads").value),
+    logger: (msg) => print(msg),
+    memory: {
+      initial: Number(document.getElementById("initial-memory").value),
+      maximum: Number(document.getElementById("maximum-memory").value),
+    },
+  });
+
+  print("Barretenberg.getNumThreads");
+  const numThreads = await bb.getNumThreads();
+  print(`Barretenberg.getNumThreads: ${numThreads}`);
+
+  print("Barretenberg.initSRSForCircuitSize");
+  await bb.initSRSForCircuitSize(Number(document.getElementById("circuit-size").value));
+  print("Barretenberg.initSRSForCircuitSize done");
+
+  print("Barretenberg.new done");
+}
+
+document.getElementById("load-wasm").addEventListener("click", loadWasm);
