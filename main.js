@@ -53,29 +53,59 @@ async function loadWasm() {
   document.getElementById("logs").innerHTML = "";
 
   try {
-  print("Barretenberg.new");
-  const bb = await Barretenberg.new({
-    threads: Number(document.getElementById("threads").value),
-    logger: (msg) => print(msg),
-    memory: {
-      initial: Number(document.getElementById("initial-memory").value),
-      maximum: Number(document.getElementById("maximum-memory").value),
-    },
-  });
+    print("Barretenberg.new");
+    const bb = await Barretenberg.new({
+      threads: Number(document.getElementById("threads").value),
+      logger: (msg) => print(msg),
+      memory: {
+        initial: Number(document.getElementById("initial-memory").value),
+        maximum: Number(document.getElementById("maximum-memory").value),
+      },
+    });
 
-  print("Barretenberg.getNumThreads");
-  const numThreads = await bb.getNumThreads();
-  print(`Barretenberg.getNumThreads: ${numThreads}`);
+    print("Barretenberg.getNumThreads");
+    const numThreads = await bb.getNumThreads();
+    print(`Barretenberg.getNumThreads: ${numThreads}`);
 
-  print("Barretenberg.initSRSForCircuitSize");
-  await bb.initSRSForCircuitSize(Number(document.getElementById("circuit-size").value));
-  print("Barretenberg.initSRSForCircuitSize done");
+    print("Barretenberg.initSRSForCircuitSize");
+    await bb.initSRSForCircuitSize(
+      Number(document.getElementById("circuit-size").value)
+    );
+    print("Barretenberg.initSRSForCircuitSize done");
 
     print("Barretenberg.new done");
   } catch (e) {
     print("\n\n\nError\n\n\n");
     print(e);
+  } finally {
+    updateMemoryInfo();
   }
 }
 
 document.getElementById("load-wasm").addEventListener("click", loadWasm);
+
+function updateMemoryInfo() {
+  const memoryInfoElement = document.getElementById("memory-info");
+  if (performance.memory) {
+    const memory = performance.memory;
+    memoryInfoElement.innerHTML = `
+      <div style="font-family: 'Courier New', monospace; margin-top: 10px;">
+        Memory Usage:
+        <br/>- Total JS Heap Size: ${Math.round(
+          memory.totalJSHeapSize / 1024 / 1024
+        )}MB
+        <br/>- Used JS Heap Size: ${Math.round(
+          memory.usedJSHeapSize / 1024 / 1024
+        )}MB
+        <br/>- JS Heap Size Limit: ${Math.round(
+          memory.jsHeapSizeLimit / 1024 / 1024
+        )}MB
+      </div>
+    `;
+  } else {
+    memoryInfoElement.innerHTML =
+      "Memory information not available in this browser";
+  }
+}
+
+updateMemoryInfo();
