@@ -52,6 +52,7 @@ async function loadWasm() {
   const { Barretenberg } = await import("@aztec/bb.js");
   document.getElementById("logs").innerHTML = "";
 
+  try {
   print("Barretenberg.new");
   const bb = await Barretenberg.new({
     threads: Number(document.getElementById("threads").value),
@@ -70,7 +71,11 @@ async function loadWasm() {
   await bb.initSRSForCircuitSize(Number(document.getElementById("circuit-size").value));
   print("Barretenberg.initSRSForCircuitSize done");
 
-  print("Barretenberg.new done");
+    print("Barretenberg.new done");
+  } catch (e) {
+    print("\n\n\nError\n\n\n");
+    print(e);
+  }
 }
 
 document.getElementById("load-wasm").addEventListener("click", loadWasm);
