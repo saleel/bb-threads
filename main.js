@@ -2,7 +2,8 @@ const doc = document.getElementById("proof-result");
 
 function print(text) {
   console.log(text);
-  doc.innerHTML += text + "<br/>";
+
+  document.getElementById("logs").innerHTML += text + "<br/>";
 }
 
 const generateProof = async () => {
@@ -20,7 +21,6 @@ const generateProof = async () => {
     const backend = new UltraHonkBackend(circuit.bytecode, {
       threads: numThreads,
       logger: (msg) => {
-        console.log(msg);
         print(msg);
       },
     });
