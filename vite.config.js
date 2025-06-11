@@ -3,7 +3,12 @@ import { nodePolyfills } from "vite-plugin-node-polyfills";
 import topLevelAwait from "vite-plugin-top-level-await";
 
 export default defineConfig({
-  plugins: [topLevelAwait()],
+  plugins: [
+    topLevelAwait(),
+    nodePolyfills({
+      include: ['buffer']
+    })
+  ],
   server: {
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin",

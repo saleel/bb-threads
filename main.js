@@ -1,4 +1,6 @@
 import packagejson from "./package.json";
+import { UltraHonkBackend, Barretenberg } from "./bb";
+import { Noir } from "@noir-lang/noir_js";
 
 print(`bb.js version: ${packagejson.dependencies["@aztec/bb.js"]}`);
 
@@ -18,8 +20,6 @@ const generateProof = async () => {
 
     const numThreads = document.getElementById("num-threads").value;
 
-    const { UltraHonkBackend, Barretenberg } = await import("@aztec/bb.js");
-    const { Noir } = await import("@noir-lang/noir_js");
     const circuit = await import("./assets/circuit.json");
 
     const noir = new Noir(circuit);
@@ -49,7 +49,6 @@ document
   .addEventListener("click", generateProof);
 
 async function loadWasm() {
-  const { Barretenberg } = await import("@aztec/bb.js");
   document.getElementById("logs").innerHTML = "";
 
   try {
