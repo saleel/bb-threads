@@ -1,4 +1,3 @@
-
 const doc = document.getElementById("proof-result");
 
 function print(text) {
@@ -18,7 +17,13 @@ const generateProof = async () => {
 
     const noir = new Noir(circuit);
 
-    const backend = new UltraHonkBackend(circuit.bytecode, { threads: numThreads });
+    const backend = new UltraHonkBackend(circuit.bytecode, {
+      threads: numThreads,
+      logger: (msg) => {
+        console.log(msg);
+        print(msg);
+      },
+    });
 
     const startTime = performance.now();
     const { witness } = await noir.execute({ x: 3, y: 3 });
@@ -33,4 +38,6 @@ const generateProof = async () => {
   }
 };
 
-document.getElementById("generate-proof").addEventListener("click", generateProof);
+document
+  .getElementById("generate-proof")
+  .addEventListener("click", generateProof);
