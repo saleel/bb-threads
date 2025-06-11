@@ -8,6 +8,8 @@ function print(text) {
 
 const generateProof = async () => {
   try {
+    document.getElementById("logs").innerHTML = "";
+
     print("Initializing...");
 
     const numThreads = document.getElementById("num-threads").value;
