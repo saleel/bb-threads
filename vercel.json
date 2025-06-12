@@ -1,7 +1,7 @@
 {
   "headers": [
     {
-      "source": "/multi-thread",
+      "source": "/",
       "headers": [
         {
           "key": "Cross-Origin-Opener-Policy",
@@ -15,7 +15,6 @@
     }
   ],
   "rewrites": [
-    { "source": "/single-thread", "destination": "/index.html" },
-    { "source": "/multi-thread", "destination": "/index.html" }
+    { "source": "/", "destination": "/index.html" }
   ]
 }
