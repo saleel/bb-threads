@@ -50,21 +50,33 @@ async function loadWasm() {
   document.getElementById("logs").innerHTML = "";
 
   try {
-    print("Calling new WebAssembly.Memory");
+    const initial = Number(document.getElementById("initial-memory").value);
+    const maximum = Number(document.getElementById("maximum-memory").value);
+    const threads = Number(document.getElementById("threads").value);
+    const shared = true;
+    const initialMb = (initial * 2 ** 16) / (1024 * 1024);
+    const maxMb = (maximum * 2 ** 16) / (1024 * 1024);
+
+    print("Calling new WebAssembly.Memory directly");
+    print(
+      `Initializing bb wasm: initial memory ${initial} pages ${initialMb}MiB; ` +
+        `max memory: ${maximum} pages, ${maxMb}MiB; ` +
+        `threads: ${threads}; shared memory: ${shared}`
+    );
     const mem = new WebAssembly.Memory({
-      initial: Number(document.getElementById("initial-memory").value),
-      maximum: Number(document.getElementById("maximum-memory").value),
+      initial,
+      maximum,
       shared: true,
     });
     print("Calling new WebAssembly.Memory done\n\n");
 
     print("Calling  Barretenberg.new");
     const bb = await Barretenberg.new({
-      threads: Number(document.getElementById("threads").value),
+      threads,
       logger: (msg) => print(msg),
       memory: {
-        initial: Number(document.getElementById("initial-memory").value),
-        maximum: Number(document.getElementById("maximum-memory").value),
+        initial,
+        maximum,
       },
     });
     print("Barretenberg.new done");
