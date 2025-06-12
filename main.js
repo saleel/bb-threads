@@ -60,8 +60,7 @@ async function loadWasm() {
     print("Calling new WebAssembly.Memory directly");
     print(
       `Initializing bb wasm: initial memory ${initial} pages ${initialMb}MiB; ` +
-        `max memory: ${maximum} pages, ${maxMb}MiB; ` +
-        `threads: ${threads}; shared memory: ${shared}`
+        `max memory: ${maximum} pages, ${maxMb}MiB;`
     );
     const mem = new WebAssembly.Memory({
       initial,
