@@ -43,10 +43,12 @@
   </div>
   <div class="input-group">
     <label for="maxPages">Maximum Pages:</label>
-    <input type="number" id="maxPages" value="32768" min="1">
+    <input type="number" id="maxPages" value="65536" min="1">
   </div>
   <button onclick="testWasmMemory()">Test Max Memory</button>
-  <div id="log"></div>
+  <div id="log">
+    
+  </div>
 
   <script>
     function log(msg) {
@@ -81,7 +83,7 @@
         }
 
         const totalMB = (pages * pageSize) / (1024 * 1024);
-        log(`\n✅ Max usable Wasm memory: ~${Math.round(totalMB)} MB (${pages} pages)`);
+        log(`\n✅ Hit max memory configured: ~${Math.round(totalMB)} MB (${pages} pages)`);
       } catch (err) {
         log(`❌ Failed to allocate initial memory: ${err.message}`);
       }
