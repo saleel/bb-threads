@@ -2,10 +2,8 @@
 # yarn lockfile v1
 
 
-"@aztec/bb.js@0.84.0":
-  version "0.84.0"
-  resolved "https://registry.yarnpkg.com/@aztec/bb.js/-/bb.js-0.84.0.tgz#58ef86587160ff559d39bbc3068b1cd25ef91917"
-  integrity sha512-jNx35PCtevQnIBAyld90JjI+fGTrhcbXH6FkcZoRRpBPvnlZVTmIAU3j16q136m+mFgIBlCuzjOE6ND4cOgnQQ==
+"@aztec/bb.js@file:../aztec-packages/barretenberg/ts":
+  version "0.1.0"
   dependencies:
     comlink "^4.4.1"
     commander "^12.1.0"

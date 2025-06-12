@@ -4,15 +4,6 @@ import topLevelAwait from "vite-plugin-top-level-await";
 
 export default defineConfig({
   plugins: [
-    topLevelAwait(),
-    nodePolyfills({
-      include: ["buffer", "process", "util", "stream", "crypto"],
-      globals: {
-        Buffer: true,
-        global: true,
-        process: true,
-      },
-    }),
   ],
   server: {
     headers: {
@@ -24,14 +15,6 @@ export default defineConfig({
     exclude: [
       "@noir-lang/noirc_abi",
       "@noir-lang/acvm_js",
-      "@aztec/bb.js",
     ],
-  },
-  resolve: {
-    alias: {
-      "pino": "pino/browser",
-      "pino/browser": "pino/browser",
-      "buffer": "buffer-es6",
-    },
   },
 });
