@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wasm Memory Limit Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    .input-group label {
+      display: inline-block;
+      width: 150px;
+    }
+    input[type="number"] {
+      width: 100px;
+      padding: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    #log {
+      background: #f0f0f0;
+      padding: 15px;
+      border: 1px solid #ccc;
+      white-space: pre-wrap;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>WebAssembly Memory Limit Test</h1>
+  <div class="input-group">
+    <label for="initialPages">Initial Pages:</label>
+    <input type="number" id="initialPages" value="1" min="1">
+  </div>
+  <div class="input-group">
+    <label for="maxPages">Maximum Pages:</label>
+    <input type="number" id="maxPages" value="32768" min="1">
+  </div>
+  <button onclick="testWasmMemory()">Test Max Memory</button>
+  <div id="log">Click the button to start the test.</div>
+
+  <script>
+    function log(msg) {
+      const logEl = document.getElementById('log');
+      logEl.textContent += "\n" + msg;
+    }
+
+    async function testWasmMemory() {
+      const pageSize = 64 * 1024; // 64 KB
+      const initialPages = parseInt(document.getElementById('initialPages').value) || 1;
+      const maxPages = parseInt(document.getElementById('maxPages').value) || 32768;
+      let pages = initialPages;
+      let memory;
+
+      log("Starting memory test...");
+
+      try {
+        memory = new WebAssembly.Memory({ initial: pages, maximum: maxPages });
+        log(`Initial memory created with ${pages} pages (${Math.round((pages * pageSize) / (1024 * 1024))} MB)`);
+
+        while (pages < maxPages) {
+          try {
+            memory.grow(1);
+            pages++;
+            if (pages % 256 === 0) {
+              log(`Grew to ${pages} pages (${Math.round((pages * pageSize) / (1024 * 1024))} MB)`);
+            }
+          } catch (growErr) {
+            log(`Memory growth failed at ${pages} pages`);
+            break;
+          }
+        }
+
+        const totalMB = (pages * pageSize) / (1024 * 1024);
+        log(`\n✅ Max usable Wasm memory: ~${Math.round(totalMB)} MB (${pages} pages)`);
+      } catch (err) {
+        log(`❌ Failed to allocate initial memory: ${err.message}`);
+      }
+    }
+  </script>
+</body>
+</html>
