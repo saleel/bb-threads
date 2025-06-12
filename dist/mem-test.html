@@ -66,7 +66,7 @@
       log("Starting memory test...");
 
       try {
-        memory = new WebAssembly.Memory({ initial: pages, maximum: maxPages });
+        memory = new WebAssembly.Memory({ initial: pages, maximum: maxPages, shared: true });
         log(`Initial memory created with ${pages} pages (${Math.round((pages * pageSize) / (1024 * 1024))} MB)`);
 
         while (pages < maxPages) {
