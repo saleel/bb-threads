@@ -46,28 +46,13 @@ document
   .getElementById("generate-proof")
   .addEventListener("click", generateProof);
 
-async function loadWasm() {
+async function loadBBWasm() {
   document.getElementById("logs").innerHTML = "";
 
   try {
     const initial = Number(document.getElementById("initial-memory").value);
     const maximum = Number(document.getElementById("maximum-memory").value);
     const threads = Number(document.getElementById("threads").value);
-    const shared = true;
-    const initialMb = (initial * 2 ** 16) / (1024 * 1024);
-    const maxMb = (maximum * 2 ** 16) / (1024 * 1024);
-
-    print("Calling new WebAssembly.Memory directly");
-    print(
-      `Initializing bb wasm: initial memory ${initial} pages ${initialMb}MiB; ` +
-        `max memory: ${maximum} pages, ${maxMb}MiB;`
-    );
-    const mem = new WebAssembly.Memory({
-      initial,
-      maximum,
-      shared: true,
-    });
-    print("Calling new WebAssembly.Memory done\n\n");
 
     print("Calling  Barretenberg.new");
     const bb = await Barretenberg.new({
@@ -85,4 +70,32 @@ async function loadWasm() {
   }
 }
 
+async function loadWasm() {
+  document.getElementById("logs").innerHTML = "";
+
+  try {
+    const initial = Number(document.getElementById("initial-memory").value);
+    const maximum = Number(document.getElementById("maximum-memory").value);
+    const initialMb = (initial * 2 ** 16) / (1024 * 1024);
+    const maxMb = (maximum * 2 ** 16) / (1024 * 1024);
+
+    print("Calling new WebAssembly.Memory directly");
+    print(
+      `Initializing bb wasm: initial memory ${initial} pages ${initialMb}MiB; ` +
+        `max memory: ${maximum} pages, ${maxMb}MiB;`
+    );
+    const mem = new WebAssembly.Memory({
+      initial,
+      maximum,
+      shared: true,
+    });
+    print("Calling new WebAssembly.Memory done\n\n");
+  } catch (e) {
+    print("\n\n\nError\n\n\n");
+    print(e);
+  }
+}
+
 document.getElementById("load-wasm").addEventListener("click", loadWasm);
+
+document.getElementById("load-bb-wasm").addEventListener("click", loadBBWasm);
